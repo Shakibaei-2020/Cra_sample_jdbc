@@ -1,0 +1,27 @@
+package com.infocom.client;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+import com.infocom.util.DBUtil;
+
+public class ClientTest {
+
+	public static void main(String[] args) throws SQLException {
+		
+		//Partie collaborateur
+		Collaborateur e = new Collaborateur(13, "MICHELLE", "InfoCom", "Dev");
+		//e.insertCollab(e);
+		//e.selectAllCollab();
+		//e.selectCollab(2);
+		//e.deleteCollab(9);
+		//e.updateCollab(e);
+	
+
+		NoteDeFrais p = new NoteDeFrais(1, "Transport",59, "13/02/2004");
+		//p.insertFrais(p);
+		//p.selectFrais(1);
+		//p.selectAllFrais();
+	}
+
+}

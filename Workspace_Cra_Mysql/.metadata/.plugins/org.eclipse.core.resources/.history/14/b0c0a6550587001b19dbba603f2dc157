@@ -1,0 +1,30 @@
+package com.infocom.client;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
+import com.infocom.util.DBUtil;
+
+
+
+public class CollaborateurDAO {
+	
+	 private static final String INSERT_USERS_SQL = "INSERT INTO collaborateur" + "  (nom_coll, societe_coll, poste_coll) VALUES " + " (?, ?, ?);";
+
+	 
+	  public void insertCollab(Collaborateur Collaborateur) throws SQLException {
+	        System.out.println(INSERT_USERS_SQL);
+	        // try-with-resource statement will auto close the connection.
+	        try (Connection connection = DBUtil.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(INSERT_USERS_SQL)) {
+	            preparedStatement.setString(1, Collaborateur.getnomCollab());
+	            preparedStatement.setString(2, Collaborateur.getsocieteCollab());
+	            preparedStatement.setString(3, Collaborateur.getpostCollab());
+	            System.out.println(preparedStatement);
+	            preparedStatement.executeUpdate();
+	        } catch (SQLException e) {
+	            System.out.println(e);
+	        }
+	    }
+	 
+}

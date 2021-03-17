@@ -1,0 +1,85 @@
+package com.infocom.client;
+
+import java.sql.Connection;
+import java.sql.Date;
+import java.sql.Statement;
+import java.text.SimpleDateFormat;
+import java.util.Scanner;
+
+import com.infocom.util.DBUtil;
+
+public class NoteDeFrais {
+	
+	static void createNoteDeFrais() {
+		try(Connection connection = DBUtil.getConnection();Statement st = connection.createStatement();) {
+		
+			Scanner sc = new Scanner(System.in); 
+			Scanner sd = new Scanner(System.in); 
+			Scanner si = new Scanner(System.in); 
+
+
+			System.out.println("nom_coll");
+	        String nom_coll = sc.nextLine(); 
+	        
+			System.out.println("prix frais");
+	        int prix_frais = si.nextInt(); 
+	        
+			System.out.println("date frais format");
+	        String date_frais = sc.nextLine(); 
+	       	        
+	        
+	        System.out.println("Raison frais");
+	        String raison_frais = sc.nextLine(); 
+
+	        String SQLINSERT = "INSERT INTO notedefrais(nom_coll,raison_frais,prix_frais,date_frais) VALUES('"+nom_coll+"','"+raison_frais+"','"+prix_frais+"','"+date_frais+"')";
+	        int executeUpdate = st.executeUpdate(SQLINSERT);
+	        
+	    	if(executeUpdate ==1){
+				System.out.println("Employee is created..");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	static void deleteNoteByName() {
+		try(Connection connection = DBUtil.getConnection();Statement st = connection.createStatement();) {
+			
+
+			Scanner sc = new Scanner(System.in); 
+
+			System.out.println("Nom du collab a supprimer");
+	        String nom_coll = sc.nextLine(); 
+			
+			String SQLINSERT = "DELETE FROM  notedefrais WHERE nom_coll='"+nom_coll+"'";
+			int executeUpdate = st.executeUpdate(SQLINSERT);
+			if(executeUpdate ==1){
+				System.out.println("note de frais suppr");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	static void updateCollab() {
+		try(Connection connection = DBUtil.getConnection();Statement st = connection.createStatement();) {
+			
+			Scanner sc = new Scanner(System.in); 
+			System.out.println("Nom du collab a modifier la note de frais");
+	        String nom_coll = sc.nextLine();
+	        
+	        System.out.println("nouvelle raison");
+	        String raison_frais = sc.nextLine();
+	        
+	        
+			
+			String SQLINSERT = "UPDATE notedefrais set raison_frais='"+raison_frais+"' WHERE nom_coll='"+nom_coll+"'";
+			int executeUpdate = st.executeUpdate(SQLINSERT);
+			if(executeUpdate ==1){
+				System.out.println("note de frais mis a jour");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+}

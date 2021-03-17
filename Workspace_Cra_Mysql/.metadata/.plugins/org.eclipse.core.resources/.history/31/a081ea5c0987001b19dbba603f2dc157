@@ -1,0 +1,225 @@
+package com.infocom.client;
+
+import java.sql.Connection;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Scanner;
+import com.infocom.util.DBUtil;
+import com.mysql.jdbc.ResultSet;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.DriverManager;
+
+public class Collaborateur {	
+	
+	private int id_coll;
+	private String nom_coll;
+	private String societe_coll;
+	private String poste_coll;
+	
+	private static final String INSERT_USERS_SQL = "INSERT INTO collaborateur" + "  (nom_coll, societe_coll, poste_coll) VALUES " + " (?, ?, ?);";
+	private static final String SELECT_USER_BY_ID = "SELECT id_coll,nom_coll,societe_coll,poste_coll FROM collaborateur WHERE id_coll =?";	
+	
+	
+	static ArrayList<Collaborateur> listCollab = new ArrayList<Collaborateur>();	
+	
+	public Collaborateur( int id_coll, String nom_coll, String societe_coll, String poste_coll) {
+        	this.id_coll = id_coll;
+			this.nom_coll = nom_coll;
+	        this.societe_coll = societe_coll;
+	        this.poste_coll = poste_coll;
+	    }
+	 
+	 
+	 public int getIdCollab() {
+			return id_coll;
+		}
+	 
+	 public int setIdCollab(int id_coll) {
+			return this.id_coll = id_coll;
+		}
+	 
+	 public String getnomCollab() {
+		 return nom_coll;
+	 }
+	 public String setnomCollab(String nom_coll) {
+		 return this.nom_coll = nom_coll;
+	 }
+	
+	 public String getsocieteCollab() {
+		 return societe_coll;
+	 }
+	 public String setsocieteCollab(String societe_coll) {
+		 return this.societe_coll = societe_coll;
+	 }
+	 
+	 public String getpostCollab() {
+		 return poste_coll;
+	 }
+	 public String setpostCollab(String poste_coll) {
+		 return this.poste_coll = poste_coll;
+	 }
+	 
+
+	  public void insertCollab(Collaborateur Collaborateur) throws SQLException {
+	        System.out.println(INSERT_USERS_SQL);
+	        try (Connection connection = DBUtil.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(INSERT_USERS_SQL)) {
+	            preparedStatement.setString(1, Collaborateur.getnomCollab());
+	            preparedStatement.setString(2, Collaborateur.getsocieteCollab());
+	            preparedStatement.setString(3, Collaborateur.getpostCollab());
+	            System.out.println(preparedStatement);
+	            preparedStatement.executeUpdate();
+	        } catch (SQLException e) {
+	            System.out.println(e);
+	        }
+	    }
+	  
+	  
+	  public Collaborateur selectCollab(int id_coll) {
+		  Collaborateur Collaborateur = null;
+	        try (Connection connection = DBUtil.getConnection();
+	            PreparedStatement preparedStatement = connection.prepareStatement(SELECT_USER_BY_ID)) {
+	            preparedStatement.setInt(1, id_coll);
+	            ResultSet rs = (ResultSet) preparedStatement.executeQuery();
+
+	            while (rs.next()) {
+	                String nom_coll = rs.getString("nom_coll");
+	                String societe_coll = rs.getString("societe_coll");
+	                String poste_coll = rs.getString("poste_coll");
+	                
+	                Collaborateur = new Collaborateur(id_coll, nom_coll, societe_coll, poste_coll);
+	                System.out.println(id_coll+" "+ nom_coll +" "+ societe_coll+" "+ poste_coll);
+	            }
+	               
+	        } catch (SQLException e) {
+	            System.out.println(e);
+	        }
+	        return Collaborateur;
+	    }
+	  
+	 
+	
+	/**
+
+	static void createCollab() {
+		try(Connection connection = DBUtil.getConnection();Statement st = connection.createStatement();) {
+		
+			Scanner sc = new Scanner(System.in); 
+
+			System.out.println("nom");
+	        String nom_coll = sc.nextLine(); 
+			System.out.println("societe");
+	        String societe_coll = sc.nextLine(); 
+			System.out.println("Poste");
+	        String poste_coll = sc.nextLine(); 
+
+	        String SQLINSERT = "INSERT INTO collaborateur(nom_coll,societe_coll,poste_coll) VALUES('"+nom_coll+"','"+societe_coll+"','"+poste_coll+"')";
+	        int executeUpdate = st.executeUpdate(SQLINSERT);
+	    	if(executeUpdate ==1){
+				System.out.println("collab ajouté");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	static void deleteCollabByName() {
+		try(Connection connection = DBUtil.getConnection();Statement st = connection.createStatement();) {
+			
+
+			Scanner sc = new Scanner(System.in); 
+
+			System.out.println("Nom du collab a supprimer");
+	        String nom_coll = sc.nextLine(); 
+			
+			String SQLINSERT = "DELETE FROM  collaborateur WHERE nom_coll='"+nom_coll+"'";
+			int executeUpdate = st.executeUpdate(SQLINSERT);
+			if(executeUpdate ==1){
+				System.out.println("Collab suppr");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	
+	static void updateCollab() {
+		try(Connection connection = DBUtil.getConnection();Statement st = connection.createStatement();) {
+			
+			Scanner sc = new Scanner(System.in); 
+			System.out.println("Nom du collab a modifier le poste");
+	        String nom_coll = sc.nextLine();
+	        
+	        System.out.println("nouveau poste");
+	        String poste_coll = sc.nextLine();
+	        
+	        
+			
+			String SQLINSERT = "UPDATE collaborateur set poste_coll='"+poste_coll+"' WHERE nom_coll='"+nom_coll+"'";
+			int executeUpdate = st.executeUpdate(SQLINSERT);
+			if(executeUpdate ==1){
+				System.out.println("Collaborateur mis a jour");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	
+	static void ShowThisCollab() {
+		try(Connection connection = DBUtil.getConnection();Statement st = connection.createStatement();) {			
+
+
+			Scanner sc = new Scanner(System.in); 
+
+			System.out.println("Nom du collab a trouver");
+	        String nom_coll = sc.nextLine(); 
+			
+		      String query = "SELECT * FROM collaborateur WHERE nom_coll = '"+nom_coll+"'";
+		      ResultSet rs = (ResultSet) st.executeQuery(query);
+
+			while (rs.next())
+		      {
+		        int id = rs.getInt("id_coll");
+		        String firstName = rs.getString("nom_coll");
+		        String lastName = rs.getString("societe_coll");
+		      
+		        
+		        System.out.format("%s, %s, %s \n", id, firstName, lastName);
+		      }
+		      st.close();
+		    }
+		    catch (Exception e)
+		    {
+		      System.err.println("Probleme ");
+		      System.err.println(e.getMessage());
+		    }
+		  }
+	
+	static void ShowAllCollab() {
+		try(Connection connection = DBUtil.getConnection();Statement st = connection.createStatement();) {			
+
+			
+		      String query = "SELECT * FROM collaborateur";
+		      ResultSet rs = (ResultSet) st.executeQuery(query);
+
+			while (rs.next())
+		      {
+		        int id = rs.getInt("id_coll");
+		        String firstName = rs.getString("nom_coll");
+		        String lastName = rs.getString("societe_coll");
+		      
+		        
+		        System.out.format("%s, %s, %s \n", id, firstName, lastName);
+		      }
+		      st.close();
+		    }
+		    catch (Exception e)
+		    {
+		      System.err.println("Probleme");
+		      System.err.println(e.getMessage());
+		    }
+		  }
+		  **/
+}

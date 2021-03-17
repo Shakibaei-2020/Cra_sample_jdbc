@@ -1,0 +1,151 @@
+package com.infocom.client;
+
+import java.sql.Connection;
+import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
+import com.infocom.util.DBUtil;
+import com.mysql.jdbc.ResultSet;
+
+public class NoteDeFrais {
+	
+	private int id_frais;
+	private String raison_frais;
+	private int prix_frais;
+	private String date_frais;
+	
+	private static final String INSERT_FRAIS_SQL = "INSERT INTO notedefrais" + "  (raison_frais, prix_frais, date_frais) VALUES " + " (?, ?, ?);";
+	private static final String SELECT_COLLAB_BY_ID = "SELECT id_coll,nom_coll,societe_coll,poste_coll FROM collaborateur WHERE id_coll =?";	
+	private static final String SELECT_ALL_COLLAB = "select * from collaborateur";
+	 private static final String DELETE_COLLAB_SQL = "delete from collaborateur where id_coll = ?;";
+	private static final String UPDATE_COLLAB_SQL = "update collaborateur set nom_coll = ?,societe_coll= ?, poste_coll =? where id_coll = ?;";
+	
+	public NoteDeFrais( int id_frais, String raison_frais, int prix_frais, String date_frais) {
+        	this.id_frais = id_frais;
+			this.raison_frais = raison_frais;
+	        this.prix_frais = prix_frais;
+	        this.date_frais = date_frais;
+	    }
+	 
+	 
+	 public int getIdFrais() {
+			return id_frais;
+		}
+	 
+	 public int setIdFrais(int id_frais) {
+			return this.id_frais = id_frais;
+		}
+	 
+	 public String getRaisonFrais() {
+		 return raison_frais;
+	 }
+	 public String setRaisonFrais(String raison_frais) {
+		 return this.raison_frais = raison_frais;
+	 }
+	
+	 public int getPrixFrais() {
+		 return prix_frais;
+	 }
+	 public int setsocieteCollab(int prix_frais) {
+		 return this.prix_frais = prix_frais;
+	 }
+	 
+	 public String getDateFrais() {
+		 return date_frais;
+	 }
+	 public String setDateFrais(String date_frais) {
+		 return this.date_frais = date_frais;
+	 }
+	 
+
+	  public void insertFrais(NoteDeFrais NoteDeFrais) throws SQLException {
+	        System.out.println(INSERT_FRAIS_SQL);
+	        try (Connection connection = DBUtil.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(INSERT_COLLAB_SQL)) {
+	            preparedStatement.setString(1, NoteDeFrais.getRaisonFrais());
+	            preparedStatement.setInt(2, NoteDeFrais.getPrixFrais());
+	            preparedStatement.setString(3, NoteDeFrais.getDateFrais());
+	            System.out.println(preparedStatement);
+	            preparedStatement.executeUpdate();
+	        } catch (SQLException e) {
+	            System.out.println(e);
+	        }
+	    }
+	  
+	  /**
+	  public Collaborateur selectCollab(int id_coll) {
+		  Collaborateur Collaborateur = null;
+	        try (Connection connection = DBUtil.getConnection();
+	            PreparedStatement preparedStatement = connection.prepareStatement(SELECT_COLLAB_BY_ID)) {
+	            preparedStatement.setInt(1, id_coll);
+	            ResultSet rs = (ResultSet) preparedStatement.executeQuery();
+
+	            while (rs.next()) {
+	                String nom_coll = rs.getString("nom_coll");
+	                String societe_coll = rs.getString("societe_coll");
+	                String poste_coll = rs.getString("poste_coll");
+	                
+	                Collaborateur = new Collaborateur(id_coll, nom_coll, societe_coll, poste_coll);
+	                System.out.println(id_coll+" "+ nom_coll +" "+ societe_coll+" "+ poste_coll);
+	            }
+	               
+	        } catch (SQLException e) {
+	            System.out.println(e);
+	        }
+	        return Collaborateur;
+	    }
+	  
+	 
+	  public List < Collaborateur > selectAllUsers() {
+
+	        List < Collaborateur > Collaborateur = new ArrayList <Collaborateur> ();
+	        try (Connection connection = DBUtil.getConnection();
+
+	            PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_COLLAB);) {
+	            System.out.println(preparedStatement);
+	            ResultSet rs = (ResultSet) preparedStatement.executeQuery();
+	            while (rs.next()) {
+	                int id_coll = rs.getInt("id_coll");
+	                String nom_coll = rs.getString("nom_coll");
+	                String societe_coll = rs.getString("societe_coll");
+	                String poste_coll = rs.getString("poste_coll");
+	                Collaborateur.add(new Collaborateur(id_coll, nom_coll, societe_coll, poste_coll));
+	                
+	                System.out.println(id_coll+" "+ nom_coll +" "+ societe_coll +" "+ poste_coll);
+	            }
+	        } catch (SQLException e) {
+	            System.out.println(e);
+	        }
+	        return Collaborateur;
+	    }
+	  
+	    public boolean deleteCollab(int id_collab) throws SQLException {
+	        boolean rowDeleted;
+	        try (Connection connection = DBUtil.getConnection();
+	        		PreparedStatement statement = connection.prepareStatement(DELETE_COLLAB_SQL);) {
+	            statement.setInt(1, id_collab);
+	            rowDeleted = statement.executeUpdate() > 0;
+	        }
+	        return rowDeleted;
+	    }
+
+	    public boolean updateCollab(Collaborateur Collaborateur) throws SQLException {
+	        boolean rowUpdated;
+	        try (Connection connection = DBUtil.getConnection();
+	        	PreparedStatement statement = connection.prepareStatement(UPDATE_COLLAB_SQL);) {
+	            statement.setString(1, Collaborateur.getnomCollab());
+	            statement.setString(2, Collaborateur.getpostCollab());
+	            statement.setString(3, Collaborateur.getsocieteCollab());
+	            statement.setInt(4, Collaborateur.getIdCollab());
+
+	            rowUpdated = statement.executeUpdate() > 0;
+	        }
+	        return rowUpdated;
+	    }
+**/
+}

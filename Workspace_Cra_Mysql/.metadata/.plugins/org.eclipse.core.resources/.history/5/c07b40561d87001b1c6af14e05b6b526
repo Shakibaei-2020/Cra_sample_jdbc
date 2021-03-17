@@ -1,0 +1,150 @@
+package com.infocom.client;
+
+import java.sql.Connection;
+import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
+import com.infocom.util.DBUtil;
+import com.mysql.jdbc.ResultSet;
+
+public class NoteDeFrais {
+	
+	private int id_frais;
+	private String raison_frais;
+	private int prix_frais;
+	private String date_frais;
+	
+	private  final String INSERT_FRAIS_SQL = "INSERT INTO notedefrais" + "  (raison_frais, prix_frais, date_frais) VALUES " + " (?, ?, ?);";
+	private  final String SELECT_FRAIS_BY_ID = "SELECT id_frais,raison_frais,prix_frais,date_frais FROM notedefrais WHERE id_frais =?";	
+	private  final String SELECT_ALL_FRAIS = "SELECT * FROM notedefrais";
+	private  final String DELETE_FRAIS_SQL = "DELETE FROM notedefrais WHERE id_frais = ?;";
+	private  final String UPDATE_FRAIS_SQL = "UPDATE notedefrais SET raison_frais = ?,prix_frais= ?, date_frais =? WHERE id_frais = ?;";
+	
+	public NoteDeFrais( int id_frais, String raison_frais, int prix_frais, String date_frais) {
+        	this.id_frais = id_frais;
+			this.raison_frais = raison_frais;
+	        this.prix_frais = prix_frais;
+	        this.date_frais = date_frais;
+	    }
+	 
+	 
+	 public int getIdFrais() {
+			return id_frais;
+		}
+	 
+	 public int setIdFrais(int id_frais) {
+			return this.id_frais = id_frais;
+		}
+	 
+	 public String getRaisonFrais() {
+		 return raison_frais;
+	 }
+	 public String setRaisonFrais(String raison_frais) {
+		 return this.raison_frais = raison_frais;
+	 }
+	
+	 public int getPrixFrais() {
+		 return prix_frais;
+	 }
+	 public int setPrixFrais(int prix_frais) {
+		 return this.prix_frais = prix_frais;
+	 }
+	 
+	 public String getDateFrais() {
+		 return date_frais;
+	 }
+	 public String setDateFrais(String date_frais) {
+		 return this.date_frais = date_frais;
+	 }
+	 
+
+	  public void insertFrais(NoteDeFrais NoteDeFrais) throws SQLException {
+	        try (Connection connection = DBUtil.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(INSERT_FRAIS_SQL)) {
+	            preparedStatement.setString(1, NoteDeFrais.getRaisonFrais());
+	            preparedStatement.setInt(2, NoteDeFrais.getPrixFrais());
+	            preparedStatement.setString(3, NoteDeFrais.getDateFrais());
+	            preparedStatement.executeUpdate();
+	        } catch (SQLException e) {
+	            System.out.println(e);
+	        }
+	    }
+	  
+
+	  public NoteDeFrais selectFrais(int id_frais) {
+		  NoteDeFrais NoteDeFrais = null;
+	        try (Connection connection = DBUtil.getConnection();
+	            PreparedStatement preparedStatement = connection.prepareStatement(SELECT_FRAIS_BY_ID)) {
+	            preparedStatement.setInt(1, id_frais);
+	            ResultSet rs = (ResultSet) preparedStatement.executeQuery();
+
+	            while (rs.next()) {
+	                String raison_frais = rs.getString("raison_frais");
+	                int prix_frais = rs.getInt("prix_frais");
+	                String date_frais = rs.getString("date_frais");
+	                
+	                NoteDeFrais = new NoteDeFrais(id_frais, raison_frais, prix_frais, date_frais);
+	                System.out.println(id_frais+" "+ raison_frais +" "+ prix_frais+" "+ date_frais);
+	            }
+	               
+	        } catch (SQLException e) {
+	            System.out.println(e);
+	        }
+	        return NoteDeFrais;
+	    }
+	  
+	
+	  public List < NoteDeFrais > selectAllFrais() {
+
+	        List < NoteDeFrais > NoteDeFrais = new ArrayList <NoteDeFrais> ();
+	        try (Connection connection = DBUtil.getConnection();
+
+	            PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_FRAIS);) {
+	            System.out.println(preparedStatement);
+	            ResultSet rs = (ResultSet) preparedStatement.executeQuery();
+	            while (rs.next()) {
+	                int id_frais = rs.getInt("id_frais");
+	                String raison_frais = rs.getString("raison_frais");
+	                int prix_frais = rs.getInt("prix_frais");
+	                String date_frais = rs.getString("date_frais");
+	                NoteDeFrais.add(new NoteDeFrais(id_frais, raison_frais, prix_frais, date_frais));
+	                
+	                System.out.println(id_frais+" "+ raison_frais +" "+ prix_frais +" "+ date_frais);
+	            }
+	        } catch (SQLException e) {
+	            System.out.println(e);
+	        }
+	        return NoteDeFrais;
+	    }
+	 
+	    public boolean deleteFrais(int id_frais) throws SQLException {
+	        boolean rowDeleted;
+	        try (Connection connection = DBUtil.getConnection();
+	        		PreparedStatement statement = connection.prepareStatement(DELETE_FRAIS_SQL);) {
+	            statement.setInt(1, id_frais);
+	            rowDeleted = statement.executeUpdate() > 0;
+	        }
+	        return rowDeleted;
+	    }
+	    
+	 
+	    public boolean updateFrais(NoteDeFrais NoteDeFrais) throws SQLException {
+	        boolean rowUpdated;
+	        try (Connection connection = DBUtil.getConnection();
+	        	PreparedStatement statement = connection.prepareStatement(UPDATE_FRAIS_SQL);) {
+	            statement.setString(1, NoteDeFrais.getRaisonFrais());
+	            statement.setInt(2, NoteDeFrais.getPrixFrais());
+	            statement.setString(3, NoteDeFrais.getDateFrais());
+	            statement.setInt(4, NoteDeFrais.getIdFrais());
+
+	            rowUpdated = statement.executeUpdate() > 0;
+	        }
+	        return rowUpdated;
+	    }
+
+}
