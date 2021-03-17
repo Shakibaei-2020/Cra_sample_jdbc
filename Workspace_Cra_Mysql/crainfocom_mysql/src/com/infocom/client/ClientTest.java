@@ -8,7 +8,7 @@ import java.util.List;
 import com.infocom.util.DBUtil;
 
 public class ClientTest {
-
+//test
 	public static void main(String[] args) throws SQLException {
 		
 		 List<NoteDeFrais> ntFrais = new ArrayList<>();

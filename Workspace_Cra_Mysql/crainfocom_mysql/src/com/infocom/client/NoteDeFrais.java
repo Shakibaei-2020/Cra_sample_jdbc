@@ -3,6 +3,7 @@ package com.infocom.client;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
@@ -11,7 +12,6 @@ import java.util.List;
 import java.util.Scanner;
 
 import com.infocom.util.DBUtil;
-import com.mysql.jdbc.ResultSet;
 
 public class NoteDeFrais {
 	

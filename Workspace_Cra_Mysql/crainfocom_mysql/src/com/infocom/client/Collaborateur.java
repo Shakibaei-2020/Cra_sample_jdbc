@@ -7,8 +7,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 import com.infocom.util.DBUtil;
-import com.mysql.jdbc.ResultSet;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.DriverManager;
 
