@@ -55,7 +55,7 @@ public class NoteDeFrais {
 	 public int getPrixFrais() {
 		 return prixFrais;
 	 }
-	 public int setPrixFrais(int prix_frais) {
+	 public int setPrixFrais(int prixFrais) {
 		 return this.prixFrais = prixFrais;
 	 }
 	 

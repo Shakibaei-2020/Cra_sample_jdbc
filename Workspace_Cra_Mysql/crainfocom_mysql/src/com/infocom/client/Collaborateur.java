@@ -33,7 +33,7 @@ public class Collaborateur   {
 			this.nomColl = nomColl;
 	        this.societeColl = societeColl;
 	        this.posteColl = posteColl;
-	    }
+	 }
 	
 	 public List<NoteDeFrais> getList() {
 		 return ntFrais;
@@ -44,19 +44,18 @@ public class Collaborateur   {
 		  this.ntFrais = ntFrais;
 	 }
 	 
-	 
-
 	 public int getIdCollab() {
 			return idColl;
-		}
+	 }
 	 
 	 public int setIdCollab(int idColl) {
 			return this.idColl = idColl;
-		}
+	 }
 	 
 	 public String getnomCollab() {
 		 return nomColl;
 	 }
+	 
 	 public String setnomCollab(String nomColl) {
 		 return this.nomColl = nomColl;
 	 }
@@ -64,6 +63,7 @@ public class Collaborateur   {
 	 public String getsocieteCollab() {
 		 return societeColl;
 	 }
+	 
 	 public String setsocieteCollab(String societeColl) {
 		 return this.societeColl = societeColl;
 	 }
@@ -71,6 +71,7 @@ public class Collaborateur   {
 	 public String getpostCollab() {
 		 return posteColl;
 	 }
+	 
 	 public String setpostCollab(String posteColl) {
 		 return this.posteColl = posteColl;
 	 }
@@ -119,7 +120,6 @@ public class Collaborateur   {
 	        try (Connection connection = DBUtil.getConnection();
 
 	            PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_COLLAB);) {
-	            System.out.println(preparedStatement);
 	            ResultSet rs = (ResultSet) preparedStatement.executeQuery();
 	            while (rs.next()) {
 	                int idColl = rs.getInt("id_coll");
