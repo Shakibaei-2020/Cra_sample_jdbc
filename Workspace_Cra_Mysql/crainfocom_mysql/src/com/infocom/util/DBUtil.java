@@ -12,6 +12,7 @@ public class DBUtil {
 	private static final String DB_URL ="jdbc:mysql://localhost:3306/crainfocom";
 	
 	private static Connection connection = null;
+	// Pourquoi t'as utilisé le static ici ?
 	static{
 		try {
 			Class.forName(DB_DRIVER_CLASS);
