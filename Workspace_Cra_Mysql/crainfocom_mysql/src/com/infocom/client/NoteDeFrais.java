@@ -1,16 +1,12 @@
 package com.infocom.client;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
-import java.util.Scanner;
-
 import com.infocom.util.DBUtil;
 
 public class NoteDeFrais {
@@ -20,13 +16,17 @@ public class NoteDeFrais {
 	private int prixFrais;
 	private String dateFrais;
 	
+	private List<NoteDeFrais> ntFrais;
+
+	
 	private  final String INSERT_FRAIS_SQL = "INSERT INTO notedefrais" + "  (raison_frais, prix_frais, date_frais) VALUES " + " (?, ?, ?);";
 	private  final String SELECT_FRAIS_BY_ID = "SELECT id_frais,raison_frais,prix_frais,date_frais FROM notedefrais WHERE id_frais =?";	
 	private  final String SELECT_ALL_FRAIS = "SELECT * FROM notedefrais";
 	private  final String DELETE_FRAIS_SQL = "DELETE FROM notedefrais WHERE id_frais = ?;";
 	private  final String UPDATE_FRAIS_SQL = "UPDATE notedefrais SET raison_frais = ?,prix_frais= ?, date_frais =? WHERE id_frais = ?;";
 	
-	
+	private  final String SELECT_FRAIS_BY_IDD = "SELECT nf.id_frais,nf.raison_frais,nf.prix_frais,nf.date_frais FROM notedefrais nf INNER JOIN collaborateur cl ON nf.id_coll = cl.id_coll WHERE cl.id_coll = ?;";
+	private  final String COUNT_FRAIS = "SELECT COUNT(id_coll) FROM notedefrais;";
 	
 	public NoteDeFrais(int idFrais, String raisonFrais, int prixFrais, String dateFrais) {
 		super();
@@ -150,6 +150,34 @@ public class NoteDeFrais {
 	        return rowUpdated;
 	    }
 
+	    
+	    
+	    public List < NoteDeFrais > selectFraisCollab(int idColl) {
+
+	        List < NoteDeFrais > NoteDeFrais = new ArrayList <NoteDeFrais> ();
+	        
+	        try (Connection connection = DBUtil.getConnection();
+	        	     
+	            PreparedStatement preparedStatement = connection.prepareStatement(SELECT_FRAIS_BY_IDD);) {
+	        	 preparedStatement.setInt(1, idColl);
+		         ResultSet rs = (ResultSet) preparedStatement.executeQuery();
+	            while (rs.next()) {
+	                int idFrais = rs.getInt("id_frais");
+	                String raisonFrais = rs.getString("raison_frais");
+	                int prixFrais = rs.getInt("prix_frais");
+	                String dateFrais = rs.getString("date_frais");
+
+	                NoteDeFrais.add(new NoteDeFrais(idFrais, raisonFrais, prixFrais, dateFrais));
+	                
+	                System.out.println(idFrais+" "+ raisonFrais +" "+ prixFrais +" "+ dateFrais);
+	            }
+	        } catch (SQLException e) {
+	            System.out.println(e);
+	        }
+	        return NoteDeFrais;
+	    }
+	    	
+	    
 
 		@Override
 		public String toString() {

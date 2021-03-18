@@ -1,11 +1,7 @@
 package com.infocom.client;
-import java.sql.Connection;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-
-import com.infocom.util.DBUtil;
 
 public class ClientTest {
 //test
@@ -15,7 +11,8 @@ public class ClientTest {
 
 		
 		//Partie collaborateur
-		Collaborateur collaborateur = new Collaborateur(13, "MICHELLE", "InfoCom", "Dev");
+		Collaborateur collaborateur = new Collaborateur(0, null, null, null);
+		
 		
 		//e.insertCollab(e);
 		//e.selectAllCollab();
@@ -24,6 +21,8 @@ public class ClientTest {
 		//e.updateCo.llab(e);
 				 
 		//PartieFrais
+		NoteDeFrais p = new NoteDeFrais(0, null, 0, null);
+		p.selectFraisCollab(2);
 		//p.insertFrais(p);
 		//p.selectFrais(1);
 		//p.selectAllFrais();
@@ -31,6 +30,7 @@ public class ClientTest {
 		//p.updateFrais(p);
 		
 		//Utilisation des deux classe
+		/**
 		 collaborateur.setList(ntFrais);
 		 
 			collaborateur.ajouterNoteDeFrais(new NoteDeFrais(9, "consommation", 80,"13/02/2006"));
@@ -39,7 +39,7 @@ public class ClientTest {
 			collaborateur.ajouterNoteDeFrais(new NoteDeFrais(3, "trafic", 80,"13/02/2024"));
 			 for (int i = 0; i < ntFrais.size(); i++) {
 				 System.out.println(ntFrais.get(i).getDateFrais());
-			}
+			}**/
 	}
 
 }

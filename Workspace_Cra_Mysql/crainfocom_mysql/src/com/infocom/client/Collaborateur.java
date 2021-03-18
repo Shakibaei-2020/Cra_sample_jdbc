@@ -1,16 +1,12 @@
 package com.infocom.client;
 
 import java.sql.Connection;
-import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Scanner;
 import com.infocom.util.DBUtil;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.DriverManager;
 
 public class Collaborateur   {	
 	
@@ -27,6 +23,7 @@ public class Collaborateur   {
 	private  final String SELECT_ALL_COLLAB = "SELECT * FROM collaborateur";
 	private  final String DELETE_COLLAB_SQL = "DELETE FROM collaborateur WHERE id_coll = ?;";
 	private  final String UPDATE_COLLAB_SQL = "UPDATE collaborateur SET nom_coll = ?,societe_coll= ?, poste_coll =? WHERE id_coll = ?;";
+	
 	
 	public Collaborateur( int idColl, String nomColl, String societeColl, String posteColl) {
         	this.idColl = idColl;
@@ -76,7 +73,6 @@ public class Collaborateur   {
 		 return this.posteColl = posteColl;
 	 }
 	 
-
 	  public void insertCollab(Collaborateur Collaborateur) throws SQLException {
 	        System.out.println(INSERT_COLLAB_SQL);
 	        try (Connection connection = DBUtil.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(INSERT_COLLAB_SQL)) {
@@ -90,7 +86,7 @@ public class Collaborateur   {
 	        }
 	    }
 	  
-	  
+
 	  public Collaborateur selectCollab(int idColl) {
 		  Collaborateur Collaborateur = null;
 	        try (Connection connection = DBUtil.getConnection();
@@ -163,5 +159,5 @@ public class Collaborateur   {
 	    public void ajouterNoteDeFrais(NoteDeFrais notedefrais) {
 			 this.ntFrais.add(notedefrais);		 
 		 }
-	
 }
+
